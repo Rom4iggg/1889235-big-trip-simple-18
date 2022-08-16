@@ -4,6 +4,7 @@ import FormOfEditingView from '../view/form-of-editing-view.js';
 import EventsListView from '../view/events-list-view.js';
 import WaypointView from '../view/waypoint-view.js';
 
+const NUMBERWAPOINTS = 3;
 
 export default class ContentPresenter {
   eventsListComponent = new EventsListView();
@@ -14,7 +15,7 @@ export default class ContentPresenter {
     render(this.eventsListComponent, boardContainer);
     render(new FormOfEditingView(), this.eventsListComponent.getElement());
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < NUMBERWAPOINTS; i++) {
       render(new WaypointView(), this.eventsListComponent.getElement());
     }
   };
