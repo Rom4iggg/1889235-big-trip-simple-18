@@ -1,5 +1,5 @@
 import { getRandomInteger, getRandomValue } from './utils.js';
-import { descriptions, waypointType, cities, } from './const.js';
+import { descriptions, waypointType, cities, titles, } from './const.js';
 
 export const generateWaypoint = () => ({
   description: getRandomValue(descriptions),
@@ -13,6 +13,9 @@ export const generateWaypoint = () => ({
   type: getRandomValue(waypointType),
   dateFrom: '2019-07-10T22:55:56.845Z',
   dateTo: '2019-07-11T11:22:13.375Z',
+  price: getRandomInteger(1, 120),
+  basePrice: getRandomInteger(1, 222),
+  title: getRandomValue(titles),
 });
 
 // const destination = () => ({

@@ -9,5 +9,6 @@ const waypointType = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-
 
 const cities = ['Chamonix', 'Amsterdam', 'Geneva',];
 
+const titles = ['Order Uber', 'Upgrade to a business class'];
 
-export { descriptions, waypointType, cities, };
+export { descriptions, waypointType, cities, titles };

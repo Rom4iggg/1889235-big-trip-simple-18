@@ -2,7 +2,7 @@ import { createElement } from '../render.js';
 import { formatStringToTime } from '../mock/utils.js';
 
 const createWaypointTemplate = (waypoint) => {
-  const { name, type, dateFrom, dateTo } = waypoint;
+  const { name, type, dateFrom, dateTo, price, basePrice, title } = waypoint;
   const dateStart = formatStringToTime(dateFrom);
   const dateEnd = formatStringToTime(dateTo);
 
@@ -22,14 +22,14 @@ const createWaypointTemplate = (waypoint) => {
         </p>
       </div>
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">20</span>
+        &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
         <li class="event__offer">
-          <span class="event__offer-title">Order Uber</span>
+          <span class="event__offer-title">${title}</span>
           &plus;&euro;&nbsp;
-          <span class="event__offer-price">20</span>
+          <span class="event__offer-price">${price}</span>
         </li>
       </ul>
       <button class="event__rollup-btn" type="button">
