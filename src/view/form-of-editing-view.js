@@ -1,7 +1,12 @@
 import { createElement } from '../render.js';
 
-const createFormOfEditingTemplate = () => (
-  `<li class="trip-events__item">
+const createFormOfEditingTemplate = (waypoint = {}) => {
+  const {
+    description = '',
+  } = waypoint;
+
+  return (
+    `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
@@ -170,29 +175,35 @@ const createFormOfEditingTemplate = () => (
 
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-          <p class="event__destination-description">Chamonix-Mont-Blanc (usually shortened to Chamonix) is a resort area
-            near the junction of France, Switzerland and Italy. At the base of Mont Blanc, the highest summit in the Alps,
-            it's renowned for its skiing.</p>
+          <p class="event__destination-description">${description}</p>
         </section>
       </section>
     </form>
   </li>`
-);
+  );
+};
 
 export default class FormOfEditingView {
-  getTemplate() {
-    return createFormOfEditingTemplate();
+  #element = null;
+  #waypoint = null;
+
+  constructor(waypoint) {
+    this.#waypoint = waypoint;
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get template() {
+    return createFormOfEditingTemplate(this.#waypoint);
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
