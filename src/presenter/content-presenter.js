@@ -3,6 +3,7 @@ import SortingView from '../view/sorting-view.js';
 import FormOfEditingView from '../view/form-of-editing-view.js';
 import EventsListView from '../view/events-list-view.js';
 import WaypointView from '../view/waypoint-view.js';
+import EmptyListView from '../view/empty-list-view.js';
 
 export default class ContentPresenter {
   #eventsListComponent = new EventsListView();
@@ -15,14 +16,18 @@ export default class ContentPresenter {
     this.#waypointsModel = waypointsModel;
     this.#listWaypoints = [...this.#waypointsModel.waypoints];
 
-    render(new SortingView(), this.#boardContainer);
 
-    render(this.#eventsListComponent, this.#boardContainer);
+    if (!(this.#listWaypoints.length > 0)) {
+      render(new EmptyListView(), this.#boardContainer);
+    } else {
 
-    // render(new FormOfEditingView(this.#listWaypoints[0]), this.#eventsListComponent.element);
+      render(new SortingView(), this.#boardContainer);
 
-    for (let i = 0; i < this.#listWaypoints.length; i++) {
-      this.#renderWaypoint(this.#listWaypoints[i]);
+      render(this.#eventsListComponent, this.#boardContainer);
+
+      for (let i = 0; i < this.#listWaypoints.length; i++) {
+        this.#renderWaypoint(this.#listWaypoints[i]);
+      }
     }
   };
 
@@ -38,6 +43,7 @@ export default class ContentPresenter {
     const replaceFormToWaypoint = () => {
       this.#eventsListComponent.element.replaceChild(waypointComponent.element, formOfEditingComponent.element);
     };
+
     const onEscKeyDown = (evt) => {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
         evt.preventDefault();
@@ -45,6 +51,7 @@ export default class ContentPresenter {
         document.removeEventListener('keydown', onEscKeyDown);
       }
     };
+
     waypointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
       replaceWaypointToForm();
       document.addEventListener('keydown', onEscKeyDown);
@@ -54,6 +61,10 @@ export default class ContentPresenter {
       evt.preventDefault();
       replaceFormToWaypoint();
       document.removeEventListener('keydown', onEscKeyDown);
+    });
+
+    formOfEditingComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+      replaceFormToWaypoint();
     });
 
     render(waypointComponent, this.#eventsListComponent.element);
