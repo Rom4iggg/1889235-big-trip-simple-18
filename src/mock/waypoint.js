@@ -5,7 +5,8 @@ export const generateWaypoint = (id) => ({
   basePrice: getRandomValue(BASE_PRICE),
   dateFrom: getRandomValue(DATE_FROM),
   dateTo: getRandomValue(DATE_TO),
-  destination: getRandomInteger(1, 3),
   type: getRandomValue(TYPE),
+  destination: getRandomInteger(1, 3),
+  offers: Array.from(new Set([getRandomInteger(1, 4), getRandomInteger(1, 4), getRandomInteger(1, 4), getRandomInteger(1, 4)])),
   id: id,
 });

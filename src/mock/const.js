@@ -8,7 +8,7 @@ const TYPE = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'si
 
 const NAME = ['Chamonix', 'Amsterdam', 'Geneva',];
 
-const descriptions = [
+const DESCRIPTIONS = [
   'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   'Cras aliquet varius magna, non porta ligula feugiat eget.',
@@ -17,4 +17,4 @@ const descriptions = [
 
 const titles = ['Order Uber', 'Upgrade to a business class'];
 
-export { BASE_PRICE, DATE_FROM, DATE_TO, TYPE, NAME, descriptions, titles };
+export { BASE_PRICE, DATE_FROM, DATE_TO, TYPE, NAME, DESCRIPTIONS, titles };
