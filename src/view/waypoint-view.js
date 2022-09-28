@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { formatStringToTime } from '../mock/utils.js';
 
 const createWaypointTemplate = (waypoint) => {
@@ -40,11 +40,11 @@ const createWaypointTemplate = (waypoint) => {
   );
 };
 
-export default class WaypointView {
-  #element = null;
+export default class WaypointView extends AbstractView {
   #waypoint = null;
 
   constructor(waypoint) {
+    super();
     this.#waypoint = waypoint;
   }
 
@@ -52,15 +52,13 @@ export default class WaypointView {
     return createWaypointTemplate(this.#waypoint);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#clickHandler);
+  };
 
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  #clickHandler = (event) => {
+    event.preventDefault();
+    this._callback.click();
+  };
 }
