@@ -1,4 +1,8 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
+
+const BLANK_WAYPOINT = {
+  description: '',
+};
 
 const createFormOfEditingTemplate = (waypoint = {}) => {
   const {
@@ -183,11 +187,11 @@ const createFormOfEditingTemplate = (waypoint = {}) => {
   );
 };
 
-export default class FormOfEditingView {
-  #element = null;
+export default class FormOfEditingView extends AbstractView {
   #waypoint = null;
 
-  constructor(waypoint) {
+  constructor(waypoint = BLANK_WAYPOINT) {
+    super();
     this.#waypoint = waypoint;
   }
 
@@ -195,15 +199,23 @@ export default class FormOfEditingView {
     return createFormOfEditingTemplate(this.#waypoint);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  setClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#clickHandler);
+  };
 
-    return this.#element;
-  }
+  #clickHandler = (event) => {
+    event.preventDefault();
+    this._callback.click();
+  };
 
-  removeElement() {
-    this.#element = null;
-  }
+  setSubmitHandler = (callback) => {
+    this._callback.submit = callback;
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#SubmitHandler);
+  };
+
+  #SubmitHandler = (event) => {
+    event.preventDefault();
+    this._callback.submit();
+  };
 }
