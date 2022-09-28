@@ -1,4 +1,4 @@
-import { render } from '../framework/render.js';
+import { render, replace } from '../framework/render.js';
 import SortingView from '../view/sorting-view.js';
 import FormOfEditingView from '../view/form-of-editing-view.js';
 import EventsListView from '../view/events-list-view.js';
@@ -28,11 +28,11 @@ export default class ContentPresenter {
     const formOfEditingComponent = new FormOfEditingView(waypoint);
 
     const replaceWaypointToForm = () => {
-      this.#eventsListComponent.element.replaceChild(formOfEditingComponent.element, waypointComponent.element);
+      replace(formOfEditingComponent, waypointComponent);
     };
 
     const replaceFormToWaypoint = () => {
-      this.#eventsListComponent.element.replaceChild(waypointComponent.element, formOfEditingComponent.element);
+      replace(waypointComponent, formOfEditingComponent);
     };
 
     const onEscKeyDown = (evt) => {
