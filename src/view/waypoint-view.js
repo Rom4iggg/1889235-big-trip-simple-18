@@ -1,8 +1,7 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { formatStringToDateWithTime, formatStringToDate, humanizeDate, humanizeTime } from '../utils/waypoint.js';
 
-const createWaypointTemplate = (waypoint) => {
-  const { destination, title, price } = waypoint;
+const createWaypointTemplate = (waypoint, offers, destination,) => {
   const dateFrom = waypoint.dateFrom;
   const dateTo = waypoint.dateTo;
 
@@ -14,6 +13,20 @@ const createWaypointTemplate = (waypoint) => {
 
   const formatStringToDateWithTimeFrom = formatStringToDateWithTime(dateFrom);
   const formatStringToDateWithTimeTo = formatStringToDateWithTime(dateTo);
+
+  const createOffersWaypointTemplate = (allOffers) => {
+    if (offers.length === 0) {
+      return ` <li class="event__offer">
+                <span class="event__offer-title">No additional offers</span>
+              </li>`;
+    }
+    return allOffers.map((offer) =>
+      `<li class="event__offer">
+      <span class="event__offer-title">${offer.title}</span>
+      &plus;&euro;&nbsp;
+      <span class="event__offer-price">${offer.price}</span>
+    </li>`).join('');
+  };
 
   return (
     `<li class="trip-events__item">
@@ -35,11 +48,7 @@ const createWaypointTemplate = (waypoint) => {
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-      <li class="event__offer">
-      <span class="event__offer-title">${title}</span>
-      &plus;&euro;&nbsp;
-      <span class="event__offer-price">${price}</span>
-    </li>
+      ${createOffersWaypointTemplate(offers)}
       </ul>
       <button class="event__rollup-btn" type="button">
         <span class="visually-hidden">Open event</span>
@@ -51,14 +60,18 @@ const createWaypointTemplate = (waypoint) => {
 
 export default class WaypointView extends AbstractView {
   #waypoint = null;
+  #offers = null;
+  #destination = null;
 
-  constructor(waypoint) {
+  constructor(waypoint, offers, destination) {
     super();
     this.#waypoint = waypoint;
+    this.#offers = offers;
+    this.#destination = destination;
   }
 
   get template() {
-    return createWaypointTemplate(this.#waypoint);
+    return createWaypointTemplate(this.#waypoint, this.#offers, this.#destination);
   }
 
   setClickHandler = (callback) => {

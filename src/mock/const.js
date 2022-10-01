@@ -17,4 +17,14 @@ const DESCRIPTIONS = [
 
 const titles = ['Order Uber', 'Upgrade to a business class'];
 
-export { BASE_PRICE, DATE_FROM, DATE_TO, TYPE, NAME, DESCRIPTIONS, titles };
+const DEFAULT_WAYPOINT = {
+  id: 0,
+  basePrice: 0,
+  dateFrom: null,
+  dateTo: null,
+  destination: '',
+  offers: [],
+  type: TYPE[0],
+};
+
+export { BASE_PRICE, DATE_FROM, DATE_TO, TYPE, NAME, DESCRIPTIONS, titles, DEFAULT_WAYPOINT };

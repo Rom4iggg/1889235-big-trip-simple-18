@@ -10,4 +10,6 @@ const humanizeTime = (date) => dayjs(date).format('HH:mm');
 
 const humanizeDateTime = (date) => dayjs(date).format('DD/MM/01 HH:mm');
 
-export { formatStringToDateWithTime, formatStringToDate, humanizeDate, humanizeTime, humanizeDateTime };
+const toUpperCaseFirstLetter = (str) => str[0].toUpperCase() + str.slice(1);
+
+export { formatStringToDateWithTime, formatStringToDate, humanizeDate, humanizeTime, humanizeDateTime, toUpperCaseFirstLetter };

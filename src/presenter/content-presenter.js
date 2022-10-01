@@ -23,9 +23,19 @@ export default class ContentPresenter {
   };
 
   #renderWaypoint = (waypoint) => {
-    const waypointComponent = new WaypointView(waypoint);
+    // this.#listWaypoints = [...this.#waypointsModel.waypoints];
 
-    const formOfEditingComponent = new FormOfEditingView(waypoint);
+    const waypointComponent = new WaypointView(
+      waypoint,
+      this.#waypointsModel.getWaypointOffers(waypoint),
+      this.#waypointsModel.getWaypointDestinations(waypoint)
+    );
+
+    const formOfEditingComponent = new FormOfEditingView(
+      waypoint,
+      this.#waypointsModel.allOffers,
+      this.#waypointsModel.allDestinations
+    );
 
     const replaceWaypointToForm = () => {
       replace(formOfEditingComponent, waypointComponent);
@@ -58,7 +68,7 @@ export default class ContentPresenter {
       document.removeEventListener('keydown', onEscKeyDown);
     });
 
-    render(waypointComponent, this.#eventsListComponent.element);
+    render(waypointComponent, this.#eventsListComponent);
   };
 
   #renderList = () => {
