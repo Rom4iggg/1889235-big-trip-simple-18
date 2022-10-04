@@ -7,25 +7,30 @@ const Mode = {
   EDITING: 'EDITING',
 };
 
-export default class WaypointPesenter {
+export default class WaypointPresenter {
   #eventsListContainer = null;
+  #waypointsModel = null;
+  #changeData = null;
+  #changeMode = null;
+
   #waypointComponent = null;
   #formOfEditingComponent = null;
 
-  #waypointsModel = null;
   #waypoint = null;
 
   #mode = Mode.DEFAULT;
 
-  constructor(eventsListContainer, waypointsModel) {
+  constructor(eventsListContainer, waypointsModel, changeData, changeMode) {
     this.#eventsListContainer = eventsListContainer;
-    this.waypointsModel = waypointsModel;
+    this.#waypointsModel = waypointsModel;
+    this.#changeData = changeData;
+    this.#changeMode = changeMode;
   }
 
   init = (waypoint) => {
     this.#waypoint = waypoint;
 
-    this.waypoints = this.#waypointsModel.waypoints;
+    // this.waypoints = this.#waypointsModel.waypoints;
 
     const prevWaypointComponent = this.#waypointComponent;
     const prevFormOfEditingComponent = this.#formOfEditingComponent;

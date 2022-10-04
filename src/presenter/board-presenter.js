@@ -1,7 +1,9 @@
 import SortingView from '../view/sorting-view.js';
 import EventsListView from '../view/events-list-view.js';
 import EmptyListView from '../view/empty-list-view.js';
-import WaypointPesenter from './waypoint-presenter.js';
+import WaypointPresenter from './waypoint-presenter.js';
+import { render, RenderPosition } from '../framework/render.js';
+import { updateItem } from '../utils/common.js';
 
 export default class BoardPesenter {
   #waypointsModel = null;
@@ -11,58 +13,57 @@ export default class BoardPesenter {
   #sortingComponent = new SortingView();
   #emptyListComponent = new EmptyListView();
 
+  #boardWaypoints = [];
+  #waypointPresenter = new Map();
+
   constructor(boardContainer, waypointsModel) {
     this.#boardContainer = boardContainer;
     this.#waypointsModel = waypointsModel;
   }
 
   init = () => {
+    this.#boardWaypoints = [...this.#waypointsModel.waypoints];
+    this.#renderBoard();
 
-    this.#renderEventList();
-
-    if (!(this.waypoints.length > 0)) {
+    if (!(this.#boardWaypoints.length > 0)) {
       this.#renderEmptyList();
     } else {
-      for (let i = 0; i < this.#listWaypoints.length; i++) {
-        this.#renderWaypoint(this.#listWaypoints[i]);
+      for (let i = 0; i < this.#boardWaypoints.length; i++) {
+        this.#renderWaypoint(this.#boardWaypoints[i]);
       }
     }
+  };
+
+  #renderWaypoint = (waypoint) => {
+    const waypointPresenter = new WaypointPresenter(this.#eventsListComponent.element, this.#handleWaypointChange, this.#handleModeChange);
+    waypointPresenter.init(waypoint);
+    this.#waypointPresenter.set(waypoint.id, waypointPresenter);
   };
 
   #renderSort = () => {
     render(this.#sortingComponent, this.#boardContainer, RenderPosition.AFTERBEGIN);
   };
 
-  #renderWaypoint = (waypoint) => {
-    const waypointPresenter = new WaypointPresenter(this.#eventsListComponent.element);
-    waypointPresenter.init(waypoint);
-  };
-
-  // #renderWaypoints = (from, to) => {
-  //   if (!(this.#listWaypoints.length > 0)) {
-  //     render(this.#emptyListComponent, this.#boardContainer);
-  //   } else {
-
-  //     render(this.#eventsListComponent, this.#boardContainer);
-
-  //     for (let i = 0; i < this.#listWaypoints.length; i++) {
-  //       this.#renderWaypoint(this.#listWaypoints[i]);
-  //     }
-  //   }
-  // };
-
-  #renderWaypoints = (from, to) => {
-    this.#listWaypoints
-      .slice(from, to)
-      .forEach((Waypoint) => this.#renderWaypoint(Waypoint));
+  #renderBoard = () => {
+    render(this.#eventsListComponent, this.#boardContainer);
   };
 
   #renderEmptyList = () => {
     render(this.#emptyListComponent, this.#boardContainer, RenderPosition.AFTERBEGIN);
   };
 
-  #renderEventList = () => {
-    render(this.#eventsListComponent, this.#boardContainer);
+  #clearWaypointList = () => {
+    this.#waypointPresenter.forEach((presenter) => presenter.destroy());
+    this.#waypointPresenter.clear();
+  };
+
+  #handleWaypointChange = (waypointUpdate) => {
+    this.#boardWaypoints = updateItem(this.#boardWaypoints, waypointUpdate);
+    this.#waypointPresenter.get(waypointUpdate.id).init(waypointUpdate);
+  };
+
+  #handleModeChange = () => {
+    this.#waypointPresenter.forEach((presenter) => presenter.resetView());
   };
 
 }
