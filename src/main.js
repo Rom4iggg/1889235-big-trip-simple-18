@@ -9,6 +9,7 @@ const siteMainElement = document.querySelector('.trip-events');
 const waypointsModel = new WaypointsModel();
 const contentPresenter = new ContentPresenter(siteMainElement, waypointsModel);
 
+
 render(new FiltersView(), siteHeaderElement);
 
 contentPresenter.init();
