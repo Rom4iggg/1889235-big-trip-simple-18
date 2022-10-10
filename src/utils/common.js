@@ -1,28 +1,25 @@
-const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
+import dayjs from 'dayjs';
+import { UNIT_DATE } from '../const.js';
 
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
+const formatStringToDateWithTime = (date) => dayjs(date).format('YYYY-MM-DDTHH:mm');
+const formatStringToDate = (date) => dayjs(date).format('YYYY-MM-DD');
+const humanizeDate = (date) => dayjs(date).format('D MMMM');
+const humanizeTime = (date) => dayjs(date).format('HH:mm');
+const humanizeDateTime = (date) => dayjs(date).format('DD/MM/01 HH:mm');
 
-const getRandomValue = (items) => items[getRandomInteger(0, items.length - 1)];
+const toUpperCaseFirstLetter = (word) => word[0].toUpperCase() + word.slice(1);
 
-const updateItem = (items, update) => {
-  const index = items.findIndex((item) => item.id === update.id);
+const sortWaypointDay = (taskA, taskB) => dayjs(taskA.dateFrom).diff(dayjs(taskB.dateFrom));
 
-  if (index === -1) {
-    return items;
-  }
+const sortWaypointPrice = (taskA, taskB) => taskB.basePrice - taskA.basePrice;
 
-  return [
-    ...items.slice(0, index),
-    update,
-    ...items.slice(index + 1),
-  ];
-};
+const isFutureDate = (dateStart, dateEnd) => dayjs().isBefore(dayjs(dateStart), UNIT_DATE) || dayjs().isBefore(dayjs(dateEnd), UNIT_DATE);
+
+const isDatesEqual = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB, 'D');
 
 const getDestination = (idDestination, allDestinations) => allDestinations.find((destinationItem) => destinationItem.id === idDestination);
 
 const getOffersByType = (typeOffer, allOffers) => allOffers.find((offer) => offer.type === typeOffer).offers;
 
-export { getRandomInteger, getRandomValue, updateItem, getDestination, getOffersByType };
+export { formatStringToDateWithTime, formatStringToDate, humanizeDate, humanizeTime, humanizeDateTime, toUpperCaseFirstLetter, sortWaypointDay, sortWaypointPrice, isFutureDate, isDatesEqual, getDestination, getOffersByType };
+
