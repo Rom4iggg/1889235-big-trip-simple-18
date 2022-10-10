@@ -40,7 +40,7 @@ export default class BoardPresenter {
 
     this.#waypointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
-    this.#waypointNewPresenter = new WaypointNewPresenter(this.#eventsListComponent.element, this.#handleViewAction);
+    this.#waypointNewPresenter = new WaypointNewPresenter(this.#waypointsModel, this.#eventsListComponent.element, this.#handleViewAction);
   }
 
   init = () => {
